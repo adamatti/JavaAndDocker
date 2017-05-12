@@ -1,0 +1,8 @@
+.gradle/
+out/
+docker-compose-local.yml
+docker-compose.yml
+*.iml
+*.ipr
+*.iws
+Makefile
