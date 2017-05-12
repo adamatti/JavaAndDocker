@@ -1,0 +1,4 @@
+Pet project to show a good approach for CI with docker/java.
+The CI server should run `make ci` only.
+Developers should use `make local-env` + IDE.
+If you just want to run the app inside docker, run `make run`
