@@ -1,0 +1,44 @@
+version: '2'
+services:
+  mongo:
+    image: "mongo:3.5.6"
+    expose:
+      - "27017"
+  redis:
+    image: "redis:3.2.8"
+    expose:
+      - "6379"
+  mq:
+    image: "rabbitmq:3.6.9"
+    expose:
+    - "5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+  app:
+    build: .
+    command: ./gradlew run
+    links:
+      - mq
+      - mongo
+      - redis
+    environment:
+      MONGO_URL: "mongodb://mongo:27017/test"
+      MQ_URL: "amqp://admin:admin@mq:5672"
+      REDIS_URL: "redis://redis:6379"
+      PORT: 8080
+    expose:
+      - "8080"
+  test:
+    build: .
+    command: "./gradlew check --stacktrace"
+    links:
+      - app
+      - mongo
+      - redis
+      - mq
+    environment:
+      MONGO_URL: "mongodb://mongo:27017/test"
+      MQ_URL: "amqp://admin:admin@mq:5672"
+      REDIS_URL: "redis://redis:6379"
+      URL_TO_TEST: "http://app:8080"

@@ -1,0 +1,22 @@
+version: '2'
+services:
+  mongo:
+    image: "mongo:3.5.6"
+    ports:
+      - "27017:27017"
+  redis:
+    image: "redis:3.2.8"
+    ports:
+      - "6379:6379"
+  mq:
+    image: "rabbitmq:3.6.9-management"
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "25672:25672"
+    - "15671:15671"
+    - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
